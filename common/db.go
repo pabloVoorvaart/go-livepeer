@@ -807,7 +807,6 @@ func (db *DB) SelectWinningTickets(sender ethcommon.Address, minCreationRound in
 		glog.Error("db: Unable to get winning tickets: ", err)
 		return nil, err
 	}
-	defer rows.Close()
 
 	var winningTickets []*pm.SignedTicket
 
@@ -848,6 +847,12 @@ func (db *DB) SelectWinningTickets(sender ethcommon.Address, minCreationRound in
 		}
 
 		winningTickets = append(winningTickets, signedTicket)
+	}
+
+	rows.Close()
+
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return winningTickets, nil
