@@ -117,7 +117,7 @@ func TestDBLastSeenBlock(t *testing.T) {
 	// When there are no headers, return nil
 	blk, err := dbh.LastSeenBlock()
 	assert.Nil(err)
-	assert.Nil(blk)
+	assert.Equal(blk, big.NewInt(0))
 
 	// When there is a single header, return its number
 	h0 := defaultMiniHeader()
@@ -1138,6 +1138,12 @@ func TestInsertMiniHeader_ReturnsFindLatestMiniHeader(t *testing.T) {
 	require.Nil(err)
 
 	h0 := defaultMiniHeader()
+
+	// No headers, return zero value with Miniheader.Number = big.NewInt(0)
+	hZero, err := dbh.FindLatestMiniHeader()
+	assert.Nil(err)
+	assert.Equal(hZero, &blockwatch.MiniHeader{Number: big.NewInt(0)})
+
 	err = dbh.InsertMiniHeader(h0)
 	require.Nil(err)
 

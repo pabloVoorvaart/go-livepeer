@@ -441,9 +441,6 @@ func (db *DB) LastSeenBlock() (*big.Int, error) {
 	if err != nil {
 		return nil, err
 	}
-	if header == nil {
-		return nil, nil
-	}
 
 	return header.Number, nil
 }
@@ -861,8 +858,10 @@ func (db *DB) FindLatestMiniHeader() (*blockwatch.MiniHeader, error) {
 		if err.Error() != "sql: no rows in result set" {
 			return nil, fmt.Errorf("could not retrieve latest header: %v", err)
 		}
-		// If there is no result return no error, just nil value
-		return nil, nil
+		// If there is no result return no error but a zero value
+		return &blockwatch.MiniHeader{
+			Number: big.NewInt(0),
+		}, nil
 	}
 
 	logs, err := decodeLogsJSON(logsEnc)

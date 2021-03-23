@@ -66,8 +66,8 @@ func TestCurrentBlock(t *testing.T) {
 		t.Error("Unexpected error deleting mini header ", err)
 	}
 
-	if orch.CurrentBlock() != nil {
-		t.Error("Expected nil getting nonexistent row")
+	if orch.CurrentBlock().Cmp(big.NewInt(0)) != 0 {
+		t.Error("Expected zero getting nonexistent row")
 	}
 }
 
