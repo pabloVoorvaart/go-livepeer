@@ -21,7 +21,7 @@ if [[ $(uname) == *"MSYS"* ]]; then
 fi
 
 export PATH="$HOME/compiled/bin":$PATH
-export PKG_CONFIG_PATH="${PKG_CONFIG_PATH:-}:$HOME/compiled/lib/pkgconfig"
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH:-}:$HOME/compiled/lib/pkgconfig:$HOME/compiled/lib64/pkgconfig"
 
 # NVENC only works on Windows/Linux
 if [ $(uname) != "Darwin" ]; then
